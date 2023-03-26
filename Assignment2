@@ -1,0 +1,117 @@
+Q. 다음의 (과일이름, 과일개수) 튜플로 구성된 리스트를 활용하여 다음의 문항을 해결하세요
+import numpy as np
+
+fruit = [('apple', np.random.randint(1,11)), 
+         ('banana', np.random.randint(1,11)),
+         ('cherry', np.random.randint(1,11)),
+         ('grape', np.random.randint(1,11)),
+         ('orange', np.random.randint(1,11)),
+         ('strawberry', np.random.randint(1,11)),
+         ('melon', np.random.randint(1,11))]
+         
+**Q1]** fruit 리스트의 홀수번째 인덱스의 튜플만을 담은 fruit02 리스트를 만들고 출력하세요.
+
+fruit02 = []
+for i, v in enumerate(fruit):
+    if (i%2) != 0:
+        fruit02.append(v)
+print(fruit02)
+
+**Q2]** sum()함수를 사용하지 않고  fruit 리스트의 과일 개수의 합을 구하세요.
+
+f_count=0
+for i,v in fruit:  #unpack
+    f_count += v
+
+f_count
+
+**Q3]** sort()함수를 사용하지 않고 fruit리스트를 과일명순으로 정렬하여 fruit03리스트를 만드세요.
+
+fruit03 = []
+
+for f, y in enumerate(fruit):
+    if f == 0: 
+        fruit03.append(y) #첫번째 과일 리스트 추가
+    else:
+        for i, j in enumerate(fruit03):
+            if y[0] < j[0]:  #y가 j보다 앞순서이면 i번째 앞에 y 삽입
+                fruit03.insert(i, y)
+                break  #조건 충족 시 반복 멈춤
+        else:
+            fruit03.append(y) 
+
+print(fruit03)
+
+Q. **Q4]** alist의 값을 key로 blist의 값을 value로 하는 dictionary를 생성하여 my_dict에 저장하세요.
+alist = ['Korean', 'English', 'Math']
+blist = ['100', '90', '80']
+
+A.
+my_dict = dict(zip(alist,blist))
+my_dict
+
+Q. 무작위 4자리 숫자 생성하기
+- 무작위의 4자리 숫자를 생성하는 프로그램
+- 단, 각 자리의 숫자가 모두 다르도록 생성
+- 예: 1234(O), 1222(X)
+- *[hint]* np.random.randint(시작위치, 끝위치)를 사용하면 해당 범위의 무작위값 생성(단, 끝위치는 포함하지 않음)
+
+A.
+import numpy as np
+
+while True:
+    r_number = str(np.random.randint(1000, 10000))
+    if len(set(r_number)) == 4 :
+        print(r_number)
+        break
+        
+Q. 숫자맞추기 야구게임
+- 프로그램이 시작되면 컴퓨터는 무작위로 모든 자리수의 숫자가 다른 4자리 숫자를 생성(2번 과제 활용)
+- 사용자는 4자리 숫자를 입력 : 4자리 숫자가 아닌 경우 다시 입력받음
+- 숫자가 전부 틀리면 '아웃'
+- 위치와 숫자가 모두 맞으면 S
+- 숫자는 맞지만 위치가 틀리면 B
+- 예시) 정답이 1234
+    - 사용자가 7892 입력 -> 1B
+    - 사용자가 1582 입력 -> 1S1B
+    
+A.
+#무작위 숫자 생성
+import numpy as np
+
+#모든 자리수의 숫자가 다른 4자리 숫자 생성
+while True: 
+    number_answer = str(np.random.randint(1000,10000))
+    if len(set(number_answer)) == 4:
+        # print(number_answer)
+        break
+
+#숫자 입력받기
+while True:
+    number_user = input('모든 자리수의 숫자가 다른 4자리 숫자를 입력하세요')
+    
+    #4자리 숫자가 아닌 경우
+    if len(number_user) != 4:   
+        print('4자리 숫자가 아닙니다. 다시 입력하세요!')
+        continue  # 4자리숫자 입력할때까지 다음반복으로 넘어감
+    
+    #정답인 경우
+    if number_answer == number_user:  
+        print('정답입니다!')
+        break   #정답이면 멈춤!
+    
+    strike = 0
+    ball = 0
+    for i in range(4):
+        if number_user[i] == number_answer[i]:  #위치와 숫자가 모두 맞는 경우 strike에 1점씩 더함
+            strike += 1
+        elif number_user[i] in number_answer:   #숫자만 맞는 경우 ball에 1점씩 더함
+            ball += 1
+    
+    if strike == 0 and ball == 0:
+        print('아웃!!')
+        break
+    
+    else: 
+        print(strike,'S',ball,'B')
+            
